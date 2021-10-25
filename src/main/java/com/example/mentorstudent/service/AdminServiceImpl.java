@@ -1,10 +1,10 @@
 package com.example.mentorstudent.service;
 
+import com.example.mentorstudent.exeption.ResourceNotFoundException;
 import com.example.mentorstudent.mapper.AdminMapper;
 import com.example.mentorstudent.mapper.MentorMapper;
 import com.example.mentorstudent.mapper.StudentMapper;
 import com.example.mentorstudent.models.dto.MentorStudentDto;
-import com.example.mentorstudent.models.dto.StudentDto;
 import com.example.mentorstudent.models.entity.*;
 import com.example.mentorstudent.repository.AdminRepository;
 import com.example.mentorstudent.repository.MentorRepository;
@@ -50,35 +50,25 @@ public class AdminServiceImpl implements AdminService {
         return mentorStudentDto;
     }
 
-    public StudentDto userLevel(String email, UserRole userRole) {
-        User user = null;
-        if (studentRepository.existsByEmail(email)) {
-            user = studentRepository.findOneByEmail(email);
-            studentRepository.deleteById(user.getId());
-        } else if (mentorRepository.existsByEmail(email)) {
-            user = mentorRepository.findOneByEmail(email);
-            mentorRepository.deleteById(user.getId());
-        } else if (adminRepository.existsByEmail(email)) {
-            user = adminRepository.findOneByEmail(email);
-            adminRepository.deleteById(user.getId());
+    public String userLevel(String email, UserRole userRole) {
+        User user = findUser(email);
+        if (user == null) {
+            throw new ResourceNotFoundException("User not found");
         }
 
-        if (user != null) {
-
-            switch (userRole.name()) {
-                case "ADMIN_ROLE":
-                    adminRepository.save((Admin) userTo(new Admin(), user, UserRole.ADMIN_ROLE));
-                    break;
-                case "MENTOR_ROLE":
-                    mentorRepository.save((Mentor) userTo(new Mentor(), user, UserRole.MENTOR_ROLE));
-                    break;
-                case "STUDENT_ROLE":
-                    studentRepository.save((Student) userTo(new Student(), user, UserRole.STUDENT_ROLE));
-                    break;
-            }
-
+        switch (userRole.name()) {
+            case "ADMIN_ROLE":
+                adminRepository.save((Admin) userTo(new Admin(), user, UserRole.ADMIN_ROLE));
+                break;
+            case "MENTOR_ROLE":
+                mentorRepository.save((Mentor) userTo(new Mentor(), user, UserRole.MENTOR_ROLE));
+                break;
+            case "STUDENT_ROLE":
+                studentRepository.save((Student) userTo(new Student(), user, UserRole.STUDENT_ROLE));
+                break;
         }
-        return null;
+
+        return "Role Changed";
     }
 
     private User userTo(User user, User dataBaseUser, UserRole userRole) {
@@ -89,6 +79,25 @@ public class AdminServiceImpl implements AdminService {
         user.setUserRoleId(userRole.ordinal());
         user.setUserRole(userRole);
         return user;
+    }
+
+    private User findUser(String email) {
+        User user;
+        if (studentRepository.existsByEmail(email)) {
+            user = studentRepository.findOneByEmail(email);
+            studentRepository.deleteById(user.getId());
+            return user;
+        } else if (mentorRepository.existsByEmail(email)) {
+            user = mentorRepository.findOneByEmail(email);
+            mentorRepository.deleteById(user.getId());
+            return user;
+        } else if (adminRepository.existsByEmail(email)) {
+            user = adminRepository.findOneByEmail(email);
+            adminRepository.deleteById(user.getId());
+            return user;
+
+        }
+        return null;
     }
 
 

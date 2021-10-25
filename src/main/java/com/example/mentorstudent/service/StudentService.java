@@ -12,7 +12,6 @@ public interface StudentService {
 
     void deleteStudent(StudentDto studentDto);
 
-    //    StudentDto addStudent (StudentDto studentDto);
     List<StudentDto> getAllStudents();
 
     StudentDto getStudentById(int id);

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/admin")
+@RequestMapping("/api/v1/admins")
 public class AdminController {
 
 
@@ -29,22 +29,13 @@ public class AdminController {
         return ResponseEntity.ok(adminService.getAllUser());
     }
 
-//    @PostMapping("/mentor")
-//    public ResponseEntity<MentorDto> addMentor(@RequestBody MentorDto mentorDto) {
-//        return ResponseEntity.ok(mentorService.addMentor(mentorDto));
-//    }
-//
-//    @PostMapping("/student")
-//    public ResponseEntity<StudentDto> addStudent(@RequestBody StudentDto studentDto) {
-//        return ResponseEntity.ok(studentService.addStudent(studentDto));
-//    }
 
     @GetMapping("/mentors")
     public ResponseEntity<List<MentorDto>> getAllMentors() {
         return ResponseEntity.ok(mentorService.getAllMentors());
     }
 
-    @GetMapping("/mentor/{id}")
+    @GetMapping("/mentors/{id}")
     public ResponseEntity<MentorDto> getMentorById(@PathVariable(name = "id") int id) {
         return ResponseEntity.ok(mentorService.getMentorById(id));
     }
@@ -54,37 +45,38 @@ public class AdminController {
         return ResponseEntity.ok(studentService.getAllStudents());
     }
 
-    @GetMapping("/student/{id}")
+    @GetMapping("/students/{id}")
     public ResponseEntity<StudentDto> getStudentById(@PathVariable(name = "id") int id) {
         return ResponseEntity.ok(studentService.getStudentById(id));
     }
 
-    @DeleteMapping("/mentor/{id}")
+    @DeleteMapping("/mentors/{id}")
     public ResponseEntity<HttpStatus> deleteMentorById(@PathVariable(name = "id") int id) {
         mentorService.deleteMentorById(id);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @DeleteMapping("/student/{id}")
+    @DeleteMapping("/students/{id}")
     public ResponseEntity<HttpStatus> deleteStudentById(@PathVariable(name = "id") int id) {
         studentService.deleteStudentById(id);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @PutMapping("/mentor/{id}")
+    @PutMapping("/mentors/{id}")
     public ResponseEntity<MentorDto> updateMentorById(@PathVariable(name = "id") int id, @RequestBody MentorDto mentorDto) {
         return ResponseEntity.ok(mentorService.updateMentorById(id, mentorDto));
     }
 
-    @PutMapping("/student/{id}")
+    @PutMapping("/students/{id}")
     public ResponseEntity<StudentDto> updateStudentById(@PathVariable(name = "id") int id, @RequestBody StudentDto studentDto) {
         return ResponseEntity.ok(studentService.updateStudentById(id, studentDto));
     }
 
     @PutMapping("/user_level/{email}")
-    public ResponseEntity<HttpStatus> changeUserLevel(@PathVariable(name = "email") String email, @RequestBody StudentDto studentDto) {
-        adminService.userLevel(email, studentDto.getUserRole());
-        return null;
+    public ResponseEntity<String> changeUserLevel(@PathVariable(name = "email") String email, @RequestBody StudentDto studentDto) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(adminService
+                        .userLevel(email, studentDto.getUserRole()));
     }
 
 }

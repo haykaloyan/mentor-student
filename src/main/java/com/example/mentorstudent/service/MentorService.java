@@ -5,7 +5,6 @@ import com.example.mentorstudent.models.dto.MentorDto;
 import java.util.List;
 
 public interface MentorService {
-//    MentorDto addMentor(MentorDto mentorDto);
 
     List<MentorDto> getAllMentors();
 

@@ -9,18 +9,18 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/api/v1/student")
+@RequestMapping("/api/v1/students")
 public class StudentController {
 
     @Autowired
     private StudentService studentService;
 
-    @PutMapping("/student")
+    @PutMapping
     public ResponseEntity<StudentDto> updateStudent(@RequestBody StudentDto studentDto) {
         return ResponseEntity.ok(studentService.updateStudent(studentDto));
     }
 
-    @DeleteMapping("/student")
+    @DeleteMapping("/me")
     public ResponseEntity<HttpStatus> deleteStudent(@RequestBody StudentDto studentDto) {
         studentService.deleteStudent(studentDto);
         return ResponseEntity.ok(HttpStatus.OK);

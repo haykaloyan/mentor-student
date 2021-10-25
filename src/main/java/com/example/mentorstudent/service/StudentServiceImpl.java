@@ -1,8 +1,10 @@
 package com.example.mentorstudent.service;
 
+import com.example.mentorstudent.exeption.ResourceNotFoundException;
 import com.example.mentorstudent.mapper.StudentMapper;
 import com.example.mentorstudent.models.dto.StudentDto;
 import com.example.mentorstudent.models.entity.Student;
+import com.example.mentorstudent.models.entity.UserRole;
 import com.example.mentorstudent.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class StudentServiceImpl implements StudentService {
+    private final String NOT_FOUND = UserRole.STUDENT_ROLE.name() + " not found.";
 
     @Autowired
     private StudentRepository studentRepository;
@@ -36,13 +39,6 @@ public class StudentServiceImpl implements StudentService {
         studentRepository.deleteById(studentDto.getId());
     }
 
-//    @Override
-//    public StudentDto addStudent(StudentDto studentDto) {
-//        studentDto.setUserRoleId(UserRole.STUDENT_ROLE.ordinal());
-//        Student save = studentRepository.save(studentMapper.toEntity(studentDto));
-//        return studentMapper.toDto(save);
-//    }
-
     @Override
     public List<StudentDto> getAllStudents() {
         return studentRepository.findAll()
@@ -59,6 +55,8 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void deleteStudentById(int id) {
+        studentRepository.findById(id).orElseThrow(()
+                -> new ResourceNotFoundException(NOT_FOUND));
         studentRepository.deleteById(id);
     }
 }

@@ -10,28 +10,23 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/mentor")
+@RequestMapping("/api/v1/mentors")
 public class MentorController {
 
     @Autowired
     private StudentService studentService;
-
-//    @PostMapping("/student")
-//    public ResponseEntity<StudentDto> addStudent(@RequestBody StudentDto studentDto) {
-//        return ResponseEntity.ok(studentService.addStudent(studentDto));
-//    }
 
     @GetMapping("/students")
     public ResponseEntity<List<StudentDto>> getAllStudents() {
         return ResponseEntity.ok(studentService.getAllStudents());
     }
 
-    @GetMapping("/student/{id}")
+    @GetMapping("/students/{id}")
     public ResponseEntity<StudentDto> getStudentById(@PathVariable(name = "id") int id) {
         return ResponseEntity.ok(studentService.getStudentById(id));
     }
 
-    @DeleteMapping("/student/{id}")
+    @DeleteMapping("/students/{id}")
     public ResponseEntity<HttpStatus> deleteStudentById(@PathVariable(name = "id") int id) {
         studentService.deleteStudentById(id);
         return ResponseEntity.ok(HttpStatus.OK);
