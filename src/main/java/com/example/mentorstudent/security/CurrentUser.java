@@ -1,7 +1,6 @@
 package com.example.mentorstudent.security;
 
 import com.example.mentorstudent.models.entity.User;
-import com.example.mentorstudent.models.entity.UserRole;
 import org.springframework.security.core.authority.AuthorityUtils;
 
 public class CurrentUser extends org.springframework.security.core.userdetails.User {

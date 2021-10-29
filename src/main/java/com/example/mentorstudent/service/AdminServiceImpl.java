@@ -1,7 +1,6 @@
 package com.example.mentorstudent.service;
 
 import com.example.mentorstudent.exeption.ResourceNotFoundException;
-import com.example.mentorstudent.mapper.AdminMapper;
 import com.example.mentorstudent.mapper.MentorMapper;
 import com.example.mentorstudent.mapper.StudentMapper;
 import com.example.mentorstudent.models.dto.MentorStudentDto;
@@ -10,7 +9,6 @@ import com.example.mentorstudent.repository.AdminRepository;
 import com.example.mentorstudent.repository.MentorRepository;
 import com.example.mentorstudent.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.stream.Collectors;
@@ -18,20 +16,22 @@ import java.util.stream.Collectors;
 @Service
 public class AdminServiceImpl implements AdminService {
 
+    private final AdminRepository adminRepository;
+    private final MentorRepository mentorRepository;
+    private final MentorMapper mentorMapper;
+    private final StudentMapper studentMapper;
+    private final StudentRepository studentRepository;
+
     @Autowired
-    private AdminRepository adminRepository;
-    @Autowired
-    private AdminMapper adminMapper;
-    @Autowired
-    private MentorRepository mentorRepository;
-    @Autowired
-    private MentorMapper mentorMapper;
-    @Autowired
-    private StudentMapper studentMapper;
-    @Autowired
-    private StudentRepository studentRepository;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    public AdminServiceImpl(AdminRepository adminRepository, MentorRepository mentorRepository,
+                            MentorMapper mentorMapper, StudentMapper studentMapper,
+                            StudentRepository studentRepository) {
+        this.adminRepository = adminRepository;
+        this.mentorRepository = mentorRepository;
+        this.mentorMapper = mentorMapper;
+        this.studentMapper = studentMapper;
+        this.studentRepository = studentRepository;
+    }
 
     @Override
     public MentorStudentDto getAllUser() {

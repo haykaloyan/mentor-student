@@ -14,14 +14,18 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/admins")
 public class AdminController {
+    private final AdminService adminService;
+    private final MentorService mentorService;
+    private final StudentService studentService;
+
+    @Autowired
+    public AdminController(AdminService adminService, MentorService mentorService, StudentService studentService) {
+        this.adminService = adminService;
+        this.mentorService = mentorService;
+        this.studentService = studentService;
+    }
 
 
-    @Autowired
-    private AdminService adminService;
-    @Autowired
-    private MentorService mentorService;
-    @Autowired
-    private StudentService studentService;
 
 
     @GetMapping("/users")

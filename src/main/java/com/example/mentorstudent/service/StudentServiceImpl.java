@@ -16,10 +16,14 @@ import java.util.stream.Collectors;
 public class StudentServiceImpl implements StudentService {
     private final String NOT_FOUND = UserRole.STUDENT_ROLE.name() + " not found.";
 
+    private final StudentRepository studentRepository;
+    private final StudentMapper studentMapper;
+
     @Autowired
-    private StudentRepository studentRepository;
-    @Autowired
-    private StudentMapper studentMapper;
+    public StudentServiceImpl(StudentRepository studentRepository, StudentMapper studentMapper) {
+        this.studentRepository = studentRepository;
+        this.studentMapper = studentMapper;
+    }
 
     @Override
     public StudentDto updateStudentById(int id, StudentDto studentDto) {

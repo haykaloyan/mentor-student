@@ -12,8 +12,14 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/students")
 public class StudentController {
 
+
+    private final StudentService studentService;
+
+
     @Autowired
-    private StudentService studentService;
+    public StudentController(StudentService studentService) {
+        this.studentService = studentService;
+    }
 
     @PutMapping
     public ResponseEntity<StudentDto> updateStudent(@RequestBody StudentDto studentDto) {

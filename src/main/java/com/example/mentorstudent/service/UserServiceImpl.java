@@ -17,25 +17,29 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
-    @Autowired
-    StudentMapper studentMapper;
-    @Autowired
-    AdminRepository adminRepository;
-    @Autowired
-    MentorRepository mentorRepository;
-    @Autowired
-    StudentRepository studentRepository;
-    @Autowired
-    AdminService adminService;
-    @Autowired
-    AdminMapper adminMapper;
-    @Autowired
-    JwtTokenUtil jwtTokenUtil;
-    @Autowired
-    MentorMapper mentorMapper;
+    private final PasswordEncoder passwordEncoder;
+    private final StudentMapper studentMapper;
+    private final AdminRepository adminRepository;
+    private final MentorRepository mentorRepository;
+    private final StudentRepository studentRepository;
+    private final AdminMapper adminMapper;
+    private final JwtTokenUtil jwtTokenUtil;
+    private final MentorMapper mentorMapper;
 
+    @Autowired
+    public UserServiceImpl(PasswordEncoder passwordEncoder, StudentMapper studentMapper,
+                           AdminRepository adminRepository, MentorRepository mentorRepository,
+                           StudentRepository studentRepository, AdminMapper adminMapper,
+                           JwtTokenUtil jwtTokenUtil, MentorMapper mentorMapper) {
+        this.passwordEncoder = passwordEncoder;
+        this.studentMapper = studentMapper;
+        this.adminRepository = adminRepository;
+        this.mentorRepository = mentorRepository;
+        this.studentRepository = studentRepository;
+        this.adminMapper = adminMapper;
+        this.jwtTokenUtil = jwtTokenUtil;
+        this.mentorMapper = mentorMapper;
+    }
 
     @Override
     public StudentDto register(StudentDto studentDto) {

@@ -19,10 +19,15 @@ import java.util.stream.Collectors;
 @Service
 public class MentorServiceImpl implements MentorService {
     private final String NOT_FOUND = UserRole.MENTOR_ROLE.name() + " not found.";
+
+    private final MentorRepository mentorRepository;
+    private final MentorMapper mentorMapper;
+
     @Autowired
-    private MentorRepository mentorRepository;
-    @Autowired
-    private MentorMapper mentorMapper;
+    public MentorServiceImpl(MentorRepository mentorRepository, MentorMapper mentorMapper) {
+        this.mentorRepository = mentorRepository;
+        this.mentorMapper = mentorMapper;
+    }
 
     @Override
     public List<MentorDto> getAllMentors() {
